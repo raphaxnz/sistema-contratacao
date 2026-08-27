@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sistema de gerenciamento de candidatos para o processo de contratação."
+    />
+    <meta name="theme-color" content="#21c25e" />
+    <title>Picpay | Gestão de candidatos</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./config.js"></script>
+    <script type="module" src="./js/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo-principal">Ir para o conteúdo</a>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegação principal">
+        <a class="brand" href="#inicio" aria-label="Picpay - início">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M7 4.75h10a2.25 2.25 0 0 1 2.25 2.25v10A2.25 2.25 0 0 1 17 19.25H7A2.25 2.25 0 0 1 4.75 17V7A2.25 2.25 0 0 1 7 4.75Z" />
+              <path d="M8.25 9.25h7.5M8.25 12h5.2M8.25 14.75h3.1" />
+            </svg>
+          </span>
+          <span>
+            <strong>Picpay</strong>
+            <small>People management</small>
+          </span>
+        </a>
+
+        <nav class="nav-list">
+          <a class="nav-link is-active" href="#inicio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.75 10.25 12 4.5l7.25 5.75v8a1.25 1.25 0 0 1-1.25 1.25h-3.5v-5h-5v5H6a1.25 1.25 0 0 1-1.25-1.25v-8Z" /></svg>
+            Visão geral
+          </a>
+          <a class="nav-link" href="#candidatos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.25 19.25v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5a3.5 3.5 0 0 0-3.5 3.5v1.5M10.25 10.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM15.75 10.75a2.5 2.5 0 0 1 0-4.9M19.75 19.25v-1.5a3.5 3.5 0 0 0-2.5-3.35" /></svg>
+            Candidatos
+          </a>
+        </nav>
+
+        <div class="sidebar-profile" aria-label="Perfil atual">
+          <span class="sidebar-profile__avatar" aria-hidden="true">RH</span>
+          <span>
+            <strong>Equipe de RH</strong>
+            <small>Gestão de talentos</small>
+          </span>
+        </div>
+
+        <div class="sidebar__footer">
+          <div class="mode-card">
+            <span class="mode-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 20.25a8.25 8.25 0 1 0 0-16.5 8.25 8.25 0 0 0 0 16.5ZM12 8v4.5l3 1.75" /></svg>
+            </span>
+            <span>
+              <small>Fonte de dados</small>
+              <strong id="data-source-label">Demonstração local</strong>
+            </span>
+          </div>
+          <button class="text-button" id="reset-data-button" type="button">
+            Restaurar dados de exemplo
+          </button>
+        </div>
+      </aside>
+
+      <main id="conteudo-principal" class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Recrutamento e seleção</p>
+            <h1>Olá, equipe de RH <span aria-hidden="true"></span></h1>
+            <p class="topbar__subtitle">Acompanhe candidatos e atualize cada etapa do processo.</p>
+          </div>
+          <button class="button button--primary" id="new-candidate-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            Novo candidato
+          </button>
+        </header>
+
+        <section id="inicio" class="stats-grid" aria-label="Indicadores do processo">
+          <article class="stat-card stat-card--total">
+            <div class="stat-card__top">
+              <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M16.25 19.25v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5a3.5 3.5 0 0 0-3.5 3.5v1.5M10.25 10.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM15.75 10.75a2.5 2.5 0 0 1 0-4.9M19.75 19.25v-1.5a3.5 3.5 0 0 0-2.5-3.35" /></svg>
+              </span>
+              <span class="stat-card__trend">Todos</span>
+            </div>
+            <strong id="stat-total">0</strong>
+            <span>Total de candidatos</span>
+          </article>
+
+          <article class="stat-card stat-card--analysis">
+            <div class="stat-card__top">
+              <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 20.25a8.25 8.25 0 1 0 0-16.5 8.25 8.25 0 0 0 0 16.5ZM12 8v4.5l3 1.75" /></svg>
+              </span>
+              <span class="stat-card__trend">Em andamento</span>
+            </div>
+            <strong id="stat-analysis">0</strong>
+            <span>Em análise</span>
+          </article>
+
+          <article class="stat-card stat-card--approved">
+            <div class="stat-card__top">
+              <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m5.25 12.25 4.25 4.25 9.25-9.25" /></svg>
+              </span>
+              <span class="stat-card__trend">Avançaram</span>
+            </div>
+            <strong id="stat-approved">0</strong>
+            <span>Aprovados</span>
+          </article>
+
+          <article class="stat-card stat-card--rejected">
+            <div class="stat-card__top">
+              <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17" /></svg>
+              </span>
+              <span class="stat-card__trend">Encerrados</span>
+            </div>
+            <strong id="stat-rejected">0</strong>
+            <span>Reprovados</span>
+          </article>
+
+          <article class="stat-card stat-card--hired">
+            <div class="stat-card__top">
+              <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M8.25 7.25V5.5a1.75 1.75 0 0 1 1.75-1.75h4A1.75 1.75 0 0 1 15.75 5.5v1.75M4.25 10.25h15.5v8a1.5 1.5 0 0 1-1.5 1.5H5.75a1.5 1.5 0 0 1-1.5-1.5v-8ZM3.75 7.25h16.5v4.5H3.75v-4.5ZM10 12v1.5h4V12" /></svg>
+              </span>
+              <span class="stat-card__trend">Finalizados</span>
+            </div>
+            <strong id="stat-hired">0</strong>
+            <span>Contratados</span>
+          </article>
+        </section>
+
+        <section id="candidatos" class="content-card" aria-labelledby="candidates-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Banco de talentos</p>
+              <h2 id="candidates-title">Candidatos</h2>
+              <p>Consulte, edite e acompanhe o processo seletivo.</p>
+            </div>
+            <div class="id-search">
+              <form id="id-search-form" novalidate>
+                <label for="id-search-input">Consulta direta por ID</label>
+                <div class="input-button-group">
+                  <input id="id-search-input" name="id" type="number" min="1" placeholder="Ex.: 3" required />
+                  <button class="button button--secondary button--icon" type="submit" aria-label="Consultar candidato por ID">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.5" /><path d="m15.5 15.5 4 4" /></svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="filters" aria-label="Filtros da listagem">
+            <div class="search-field">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.5" /><path d="m15.5 15.5 4 4" /></svg>
+              <label class="sr-only" for="search-input">Buscar por nome ou cargo</label>
+              <input id="search-input" type="search" placeholder="Buscar por nome ou cargo..." autocomplete="off" />
+            </div>
+            <div class="select-field">
+              <label class="sr-only" for="status-filter">Filtrar por status</label>
+              <select id="status-filter">
+                <option value="TODOS">Todos os status</option>
+                <option value="EM_ANALISE">Em análise</option>
+                <option value="APROVADO">Aprovado</option>
+                <option value="REPROVADO">Reprovado</option>
+                <option value="CONTRATADO">Contratado</option>
+              </select>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg>
+            </div>
+            <button class="button button--ghost" id="clear-filters-button" type="button">Limpar filtros</button>
+          </div>
+
+          <div id="loading-state" class="loading-state" role="status">
+            <span class="spinner" aria-hidden="true"></span>
+            Carregando candidatos...
+          </div>
+
+          <div id="error-state" class="feedback-state feedback-state--error" hidden>
+            <span class="feedback-state__icon" aria-hidden="true">!</span>
+            <div>
+              <strong>Não foi possível carregar os dados</strong>
+              <p id="error-state-message">Tente novamente em alguns instantes.</p>
+            </div>
+            <button class="button button--secondary" id="retry-button" type="button">Tentar novamente</button>
+          </div>
+
+          <div id="empty-state" class="feedback-state" hidden>
+            <span class="feedback-state__illustration" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><circle cx="27" cy="27" r="16" /><path d="m39 39 13 13M21 27h12M27 21v12" /></svg>
+            </span>
+            <strong>Nenhum candidato encontrado</strong>
+            <p>Revise os filtros ou cadastre uma nova pessoa.</p>
+          </div>
+
+          <div id="table-region" class="table-region" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Candidato</th>
+                  <th scope="col">Cargo</th>
+                  <th scope="col">Departamento</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Cidade</th>
+                  <th class="table-actions-heading" scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="candidate-table-body"></tbody>
+            </table>
+          </div>
+
+          <div id="mobile-candidate-list" class="mobile-candidate-list" hidden></div>
+
+          <footer class="table-footer" id="table-footer" hidden>
+            <p id="results-summary">Mostrando 0 candidatos</p>
+          </footer>
+        </section>
+      </main>
+
+      <aside class="process-panel" aria-label="Guia do processo seletivo">
+        <header class="process-panel__header">
+          <div>
+            <p class="eyebrow">Visão rápida</p>
+            <h2>Processo</h2>
+          </div>
+          <span class="process-panel__bell" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6.75 10a5.25 5.25 0 0 1 10.5 0c0 6 2.25 6 2.25 6H4.5s2.25 0 2.25-6ZM10 19h4" /></svg>
+          </span>
+        </header>
+
+        <div class="process-date">
+          <span>Fluxo de contratação</span>
+          <strong>Etapas principais</strong>
+        </div>
+
+        <ol class="process-timeline">
+          <li class="process-step process-step--active">
+            <span class="process-step__marker">01</span>
+            <span><small>Entrada</small><strong>Novo candidato</strong></span>
+          </li>
+          <li>
+            <span class="process-step__marker">02</span>
+            <span><small>Triagem</small><strong>Em análise</strong></span>
+          </li>
+          <li>
+            <span class="process-step__marker">03</span>
+            <span><small>Decisão</small><strong>Aprovado ou reprovado</strong></span>
+          </li>
+          <li>
+            <span class="process-step__marker">04</span>
+            <span><small>Conclusão</small><strong>Contratado</strong></span>
+          </li>
+        </ol>
+
+        <section class="http-guide" aria-labelledby="http-guide-title">
+          <p class="eyebrow">Integração</p>
+          <h3 id="http-guide-title">Métodos utilizados</h3>
+          <div class="http-guide__list">
+            <span><b>POST</b> Cadastrar</span>
+            <span><b>GET</b> Consultar</span>
+            <span><b>PUT</b> Editar tudo</span>
+            <span><b>PATCH</b> Editar parte</span>
+            <span><b>DELETE</b> Excluir</span>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <dialog class="dialog dialog--form" id="candidate-dialog" aria-labelledby="candidate-dialog-title">
+      <form id="candidate-form" method="dialog" novalidate>
+        <div class="dialog__header">
+          <div>
+            <p class="eyebrow" id="candidate-dialog-eyebrow">Cadastro</p>
+            <h2 id="candidate-dialog-title">Novo candidato</h2>
+            <p id="candidate-dialog-description">Preencha as informações para iniciar o processo.</p>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog="candidate-dialog" aria-label="Fechar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+
+        <div class="dialog__body">
+          <input id="candidate-id" name="candidateId" type="hidden" />
+
+          <fieldset>
+            <legend>Dados principais</legend>
+            <div class="form-grid">
+              <div class="form-field form-field--id" id="manual-id-field">
+                <label for="id">ID <span class="optional">opcional</span></label>
+                <input id="id" name="id" type="number" min="1" inputmode="numeric" placeholder="Gerado automaticamente" />
+                <small>Informe apenas se o back exigir um ID no cadastro.</small>
+              </div>
+              <div class="form-field form-field--wide">
+                <label for="nome">Nome completo <span aria-hidden="true">*</span></label>
+                <input id="nome" name="nome" type="text" maxlength="100" autocomplete="name" required placeholder="Ex.: Marina Almeida" />
+                <small class="field-error" data-error-for="nome"></small>
+              </div>
+              <div class="form-field">
+                <label for="email">E-mail <span aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" maxlength="120" autocomplete="email" required placeholder="nome@exemplo.com" />
+                <small class="field-error" data-error-for="email"></small>
+              </div>
+              <div class="form-field">
+                <label for="telefone">Telefone</label>
+                <input id="telefone" name="telefone" type="tel" maxlength="15" autocomplete="tel" placeholder="(11) 99999-9999" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Informações da vaga</legend>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="cargo">Cargo <span aria-hidden="true">*</span></label>
+                <input id="cargo" name="cargo" type="text" maxlength="80" required placeholder="Ex.: Desenvolvedor Front-end" />
+                <small class="field-error" data-error-for="cargo"></small>
+              </div>
+              <div class="form-field">
+                <label for="departamento">Departamento</label>
+                <input id="departamento" name="departamento" type="text" maxlength="80" placeholder="Ex.: Tecnologia" />
+              </div>
+              <div class="form-field">
+                <label for="salario">Pretensão salarial</label>
+                <div class="input-prefix">
+                  <span>R$</span>
+                  <input id="salario" name="salario" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00" />
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="EM_ANALISE">Em análise</option>
+                  <option value="APROVADO">Aprovado</option>
+                  <option value="REPROVADO">Reprovado</option>
+                  <option value="CONTRATADO">Contratado</option>
+                </select>
+              </div>
+              <div class="form-field form-field--wide">
+                <label for="cidade">Cidade</label>
+                <input id="cidade" name="cidade" type="text" maxlength="80" autocomplete="address-level2" placeholder="Ex.: São Paulo - SP" />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="dialog__footer">
+          <button class="button button--secondary" type="button" data-close-dialog="candidate-dialog">Cancelar</button>
+          <button class="button button--primary" id="candidate-submit-button" type="submit">
+            <span class="button__label">Cadastrar candidato</span>
+            <span class="button__loading"><span class="spinner spinner--small"></span> Salvando...</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="dialog dialog--details" id="details-dialog" aria-labelledby="details-dialog-title">
+      <div class="dialog__header">
+        <div>
+          <p class="eyebrow">Perfil do candidato</p>
+          <h2 id="details-dialog-title">Detalhes</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-dialog="details-dialog" aria-label="Fechar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+      </div>
+      <div class="dialog__body" id="details-content"></div>
+      <div class="dialog__footer">
+        <button class="button button--secondary" type="button" data-close-dialog="details-dialog">Fechar</button>
+        <button class="button button--primary" id="details-edit-button" type="button">Editar cadastro</button>
+      </div>
+    </dialog>
+
+    <dialog class="dialog dialog--compact" id="patch-dialog" aria-labelledby="patch-dialog-title">
+      <form id="patch-form" method="dialog" novalidate>
+        <div class="dialog__header">
+          <div>
+            <p class="eyebrow">Atualização parcial · PATCH</p>
+            <h2 id="patch-dialog-title">Atualização rápida</h2>
+            <p>Altere somente os campos necessários de <strong id="patch-candidate-name"></strong>.</p>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog="patch-dialog" aria-label="Fechar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+        <div class="dialog__body">
+          <input id="patch-id" name="candidateId" type="hidden" />
+          <div class="form-grid form-grid--single">
+            <div class="form-field">
+              <label for="patch-status">Novo status <span class="optional">opcional</span></label>
+              <select id="patch-status" name="status">
+                <option value="">Manter status atual</option>
+                <option value="EM_ANALISE">Em análise</option>
+                <option value="APROVADO">Aprovado</option>
+                <option value="REPROVADO">Reprovado</option>
+                <option value="CONTRATADO">Contratado</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="patch-cargo">Novo cargo <span class="optional">opcional</span></label>
+              <input id="patch-cargo" name="cargo" type="text" maxlength="80" placeholder="Manter cargo atual" />
+            </div>
+            <div class="form-field">
+              <label for="patch-salario">Novo salário <span class="optional">opcional</span></label>
+              <div class="input-prefix">
+                <span>R$</span>
+                <input id="patch-salario" name="salario" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Manter salário atual" />
+              </div>
+            </div>
+          </div>
+          <p class="form-message form-message--error" id="patch-form-error" role="alert" hidden></p>
+        </div>
+        <div class="dialog__footer">
+          <button class="button button--secondary" type="button" data-close-dialog="patch-dialog">Cancelar</button>
+          <button class="button button--primary" id="patch-submit-button" type="submit">
+            <span class="button__label">Salvar alterações</span>
+            <span class="button__loading"><span class="spinner spinner--small"></span> Salvando...</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="dialog dialog--confirmation" id="delete-dialog" aria-labelledby="delete-dialog-title">
+      <form id="delete-form" method="dialog">
+        <div class="confirmation-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4.75 7.25h14.5M9.25 7.25v-2a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1v2M7 7.25l.75 12h8.5l.75-12M10 10.5v5.75M14 10.5v5.75" /></svg>
+        </div>
+        <h2 id="delete-dialog-title">Excluir candidato?</h2>
+        <p>Você está prestes a remover <strong id="delete-candidate-name"></strong>. Esta ação não poderá ser desfeita.</p>
+        <input id="delete-id" name="candidateId" type="hidden" />
+        <div class="dialog__footer">
+          <button class="button button--secondary" type="button" data-close-dialog="delete-dialog">Cancelar</button>
+          <button class="button button--danger" id="delete-submit-button" type="submit">
+            <span class="button__label">Sim, excluir</span>
+            <span class="button__loading"><span class="spinner spinner--small"></span> Excluindo...</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
